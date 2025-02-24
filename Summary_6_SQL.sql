@@ -15,6 +15,7 @@ create table staff (
 	-- 	'Middle', если возраст от 25 до 35 лет.
 	-- 	'Senior', если возраст больше 35 лет.
 alter table staff add column experience_level varchar(10);
+SET SQL_SAFE_UPDATES = 0; 
 update staff set experience_level =
     case
         when age < 25 then 'Junior'
@@ -26,6 +27,7 @@ update staff set experience_level =
 	-- 'Has children', если has_child равно 'Y'.
 	-- 'No children', если has_child равно 'N'.
     alter table staff add column family_status varchar(15);
+    
 update staff set family_status = 
     case 
         when has_child = 'Y' then 'Has children'
@@ -41,8 +43,6 @@ update staff set family_status =
     -- 5. Создать новое поле fullname и заполнить его объединением имени и фамилии.
     alter table staff add column fullname varchar(101);
     update staff set fullname = concat(first_name, ' ', last_name);
-    
-    SET SQL_SAFE_UPDATES = 0; (Тут вспомнила, что нужно отключить безопасный режим обновлений)
     
     -- 6. Вычислить длину имени каждого сотрудника и вывести как новое поле firstname_length.
     select first_name, length(first_name) as firstname_length from staff;
